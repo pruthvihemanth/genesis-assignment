@@ -42,6 +42,7 @@ jobs:
         run: npm run build
         env:
           CI: true
+          REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL || 'http://52.23.185.218:3000/api/v1' }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4

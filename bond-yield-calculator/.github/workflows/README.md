@@ -62,6 +62,7 @@ Configure these in the repo: **Settings → Secrets and variables → Actions**.
 | **AWS_SECRET_ACCESS_KEY** | Secret | Yes | IAM user secret access key (pair of the key above). |
 | **S3_BUCKET_NAME** | Variable | Yes | Your existing S3 bucket name (static site bucket). |
 | **CLOUDFRONT_DISTRIBUTION_ID** | Variable | Yes | CloudFront distribution ID (for cache invalidation after upload). |
+| **REACT_APP_API_BASE_URL** | Variable | No | Backend API base URL for the frontend (e.g. `http://52.23.185.218:3000/api/v1`). Defaults to `http://52.23.185.218:3000/api/v1` if not set. |
 | **AWS_REGION** | Variable | No | AWS region (e.g. `us-east-1`). Defaults to `us-east-1` if not set. |
 
 **Where to add:** In the **repository** that runs the workflows (e.g. **genesis-assignment**) go to **Settings** → **Secrets and variables** → **Actions**. Under **Secrets** add **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY**; under **Variables** add **S3_BUCKET_NAME**, **CLOUDFRONT_DISTRIBUTION_ID**, and optionally **AWS_REGION**. Repository-level (not organization-level) is correct.
