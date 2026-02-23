@@ -77,9 +77,9 @@ Configure these in the repo: **Settings → Secrets and variables → Actions**.
 | **EC2_SSH_PRIVATE_KEY** | Secret | Yes | Full contents of the SSH private key (e.g. `~/.ssh/id_rsa`) used to connect to EC2. |
 | **EC2_USER** | Secret or Variable | Yes | SSH user on the instance (e.g. `ubuntu`, `ec2-user`). |
 | **EC2_HOST** | Secret or Variable | Yes | EC2 hostname or IP (e.g. `ec2-xx-xx-xx-xx.compute.amazonaws.com`). |
-| **EC2_APP_DIR** | Variable | No | Directory on EC2 where the app is deployed. Default: `~/app`. |
+| **EC2_APP_DIR** | Variable | **Yes** | **Full path** on EC2 for the app (e.g. `/home/ubuntu/app` or `/home/ec2-user/app`). Do not use `~/app` — the workflow needs an absolute path. |
 
-**Where to add:** All can be **Secrets** (recommended for user/host) or **Variables** (EC2_APP_DIR is typically a variable).
+**Where to add:** All can be **Secrets** (recommended for user/host) or **Variables**; **EC2_APP_DIR** must be a **Variable** and must be the full path so SCP and SSH work correctly.
 
 ---
 
@@ -129,4 +129,4 @@ After the first deploy, the workflow will run `npm ci --omit=dev` and `pm2 resta
 
 **Backend: "Permission denied" or "No such file or directory" on SCP**
 
-- The workflow now creates the remote app directory (`~/app` or `EC2_APP_DIR`) before copying. If you still see **Permission denied**, the directory may already exist and be owned by another user (e.g. root). On the EC2 instance run: `sudo chown -R $(whoami):$(whoami) ~/app` (or your `EC2_APP_DIR`) so the deploy user can write.
+- Set **EC2_APP_DIR** to the **full path** on the EC2 instance (e.g. `/home/ubuntu/app` for user `ubuntu`). Using `~/app` causes the wrong path on the runner and fails. If you see **Permission denied**, the directory may exist and be owned by another user; on EC2 run: `sudo chown -R $(whoami):$(whoami) /home/ubuntu/app` (use your actual path).
