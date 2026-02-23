@@ -126,3 +126,7 @@ mkdir -p ~/app
 ```
 
 After the first deploy, the workflow will run `npm ci --omit=dev` and `pm2 restart bond-api` on each run. If you use systemd or another manager instead of PM2, change the last SSH command in `deploy-backend.yml` accordingly.
+
+**Backend: "Permission denied" or "No such file or directory" on SCP**
+
+- The workflow now creates the remote app directory (`~/app` or `EC2_APP_DIR`) before copying. If you still see **Permission denied**, the directory may already exist and be owned by another user (e.g. root). On the EC2 instance run: `sudo chown -R $(whoami):$(whoami) ~/app` (or your `EC2_APP_DIR`) so the deploy user can write.
