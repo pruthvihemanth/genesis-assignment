@@ -54,7 +54,7 @@ export function BondResults({ result }: BondResultsProps): React.ReactElement | 
           </p>
         </div>
         <div>
-          <p className="text-sm text-slate-500">Premium or discount (trading above/below face value)</p>
+          <p className="text-sm text-slate-500">Premium or discount</p>
           <div className="mt-1.5">
             <PremiumBadge value={result.premiumOrDiscount} />
           </div>
