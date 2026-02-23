@@ -47,10 +47,9 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          # Option B: Access keys — uncomment and set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY; remove role-to-assume
-          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # Option B (OIDC): remove the two lines above and set role-to-assume: ${{ secrets.AWS_ROLE_ARN }}, add id-token: write to job permissions
 
       - name: Sync to S3
         run: |

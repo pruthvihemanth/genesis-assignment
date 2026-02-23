@@ -58,14 +58,15 @@ Configure these in the repo: **Settings → Secrets and variables → Actions**.
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| **AWS_ROLE_ARN** | Secret | Yes (if using OIDC) | IAM role ARN for OIDC auth. Use this **or** the two access key secrets below. |
-| **AWS_ACCESS_KEY_ID** | Secret | Yes (if using keys) | AWS access key. Uncomment in workflow and remove `role-to-assume` if using keys. |
-| **AWS_SECRET_ACCESS_KEY** | Secret | Yes (if using keys) | AWS secret key. |
+| **AWS_ACCESS_KEY_ID** | Secret | Yes | IAM user access key ID with permission to write to S3 and create CloudFront invalidations. |
+| **AWS_SECRET_ACCESS_KEY** | Secret | Yes | IAM user secret access key (pair of the key above). |
 | **S3_BUCKET_NAME** | Variable | Yes | Your existing S3 bucket name (static site bucket). |
 | **CLOUDFRONT_DISTRIBUTION_ID** | Variable | Yes | CloudFront distribution ID (for cache invalidation after upload). |
 | **AWS_REGION** | Variable | No | AWS region (e.g. `us-east-1`). Defaults to `us-east-1` if not set. |
 
-**Where to add:** Secrets = **Secrets** tab; S3/CloudFront/Region = **Variables** tab.
+**Where to add:** In the **repository** that runs the workflows (e.g. **genesis-assignment**) go to **Settings** → **Secrets and variables** → **Actions**. Under **Secrets** add **AWS_ACCESS_KEY_ID** and **AWS_SECRET_ACCESS_KEY**; under **Variables** add **S3_BUCKET_NAME**, **CLOUDFRONT_DISTRIBUTION_ID**, and optionally **AWS_REGION**. Repository-level (not organization-level) is correct.
+
+**Optional (OIDC):** To use OIDC instead of access keys, edit the workflow to use `role-to-assume: ${{ secrets.AWS_ROLE_ARN }}` and remove the access-key lines; add **AWS_ROLE_ARN** in Secrets and configure the IdP in IAM.
 
 ---
 
