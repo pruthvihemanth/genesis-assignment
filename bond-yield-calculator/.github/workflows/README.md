@@ -15,8 +15,8 @@ This folder contains GitHub Actions workflows for deploying the Bond Yield Calcu
 
 | Workflow | Trigger | Target | What gets deployed |
 |----------|---------|--------|--------------------|
-| **deploy-frontend.yml** | Push to `main` when `frontend/**` changes, or manual run | S3 + CloudFront | Static build from `frontend/build/` |
-| **deploy-backend.yml** | Push to `main` when `backend/**` changes, or manual run | EC2 | Compiled app in `backend/dist/` + `package.json` / `package-lock.json` |
+| **deploy-frontend.yml** | Push to `main` or `development` when `frontend/**` changes, or manual run | S3 + CloudFront | Static build from `frontend/build/` |
+| **deploy-backend.yml** | Push to `main` or `development` when `backend/**` changes, or manual run | EC2 | Compiled app in `backend/dist/` + `package.json` / `package-lock.json` |
 
 Deployments are **separate**: changing only frontend runs only the frontend workflow; changing only backend runs only the backend workflow.
 
