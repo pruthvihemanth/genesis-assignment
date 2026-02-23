@@ -1,0 +1,59 @@
+# Deploy Backend to EC2
+# Trigger on push to main when backend changes, or manually via workflow_dispatch.
+
+name: Deploy Backend (EC2)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  deploy:
+    name: Build and deploy to EC2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Build
+        working-directory: backend
+        run: npm run build
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.EC2_HOST || vars.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+
+      - name: Copy artifacts to EC2
+        run: |
+          scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new -r \
+            backend/dist \
+            backend/package.json \
+            backend/package-lock.json \
+            ${{ secrets.EC2_USER || vars.EC2_USER }}@${{ secrets.EC2_HOST || vars.EC2_HOST }}:${{ vars.EC2_APP_DIR || '~/app' }}/
+
+      - name: Install production deps and restart on EC2
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            ${{ secrets.EC2_USER || vars.EC2_USER }}@${{ secrets.EC2_HOST || vars.EC2_HOST }} \
+            "cd ${{ vars.EC2_APP_DIR || '~/app' }} && npm ci --omit=dev && (pm2 restart bond-api || (pm2 delete bond-api 2>/dev/null; pm2 start dist/main.js --name bond-api) || node dist/main.js &)"
