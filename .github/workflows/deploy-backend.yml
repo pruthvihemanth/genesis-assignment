@@ -8,6 +8,7 @@ on:
     branches: [main, development]
     paths:
       - 'bond-yield-calculator/backend/**'
+      - '.github/workflows/deploy-backend.yml'
   workflow_dispatch:
 
 env:

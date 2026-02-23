@@ -21,6 +21,15 @@ GitHub only runs workflows that live in the **repository root** `.github/workflo
 
 If nothing appears under Actions, the workflow files are likely not in the repo root `.github/workflows/` (see above).
 
+**Run shows "Skipped" or build step never ran**
+
+- GitHub runs the workflow on push but **skips the job** when no files in the trigger paths were changed. So if you only pushed changes under e.g. `.github/` (at repo root), `README`, or files outside `bond-yield-calculator/frontend/**` or `bond-yield-calculator/backend/**`, the run will be **Skipped** and no build runs.
+- **Fix:** Either push at least one change under `bond-yield-calculator/frontend/**` (for frontend deploy) or `bond-yield-calculator/backend/**` (for backend deploy), or trigger manually: **Actions** → select the workflow → **Run workflow** → choose branch → **Run workflow**.
+
+**Run failed before "Build"**
+
+- Open the run and check which step failed (red X). Common causes: **Install dependencies** fails if `package-lock.json` is missing or out of sync (run `npm install` locally and commit the lockfile); **Configure AWS credentials** fails if `AWS_ROLE_ARN` or access keys are missing or wrong.
+
 ---
 
 ## How deployment is structured
