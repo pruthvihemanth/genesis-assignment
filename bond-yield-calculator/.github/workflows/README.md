@@ -30,6 +30,17 @@ If nothing appears under Actions, the workflow files are likely not in the repo 
 
 - Open the run and check which step failed (red X). Common causes: **Install dependencies** fails if `package-lock.json` is missing or out of sync (run `npm install` locally and commit the lockfile); **Configure AWS credentials** fails if `AWS_ROLE_ARN` or access keys are missing or wrong.
 
+**Frontend not connecting to backend (production) / Mixed content**
+
+- Browsers block **mixed content**: an **HTTPS** frontend (e.g. CloudFront) cannot call an **HTTP** API. You must call the backend over **HTTPS**.
+- **Fix – proxy API through CloudFront (no extra domain/cert):**
+  1. In the **same** CloudFront distribution that serves your frontend (or a new one): **Origins** → **Create origin** → set **Origin domain** to your EC2 (e.g. `52.23.185.218`), **Protocol** = HTTP only, **Port** = 3000. Save.
+  2. **Behaviors** → **Create behavior** → **Path pattern** = `api/*` (or `api/v1/*`), **Origin** = the EC2 origin you just created. **Cache policy** = CachingDisabled (or a short TTL). Save.
+  3. Set repo variable **REACT_APP_API_BASE_URL** to your **HTTPS** CloudFront URL + path, e.g. `https://d1234abcd.cloudfront.net/api/v1` (use your distribution’s domain).
+  4. **Redeploy the frontend** (Actions → Deploy Frontend → Run workflow) so the new URL is baked in.
+- **Alternative:** Put the backend on HTTPS with a domain (e.g. ALB + ACM, or Nginx + Let’s Encrypt) and set **REACT_APP_API_BASE_URL** to that HTTPS URL, then redeploy the frontend.
+- **Redeploy:** Changing **REACT_APP_API_BASE_URL** only takes effect after you run the Deploy Frontend workflow again.
+
 ---
 
 ## How deployment is structured

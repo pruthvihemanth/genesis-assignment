@@ -42,6 +42,7 @@ jobs:
         run: npm run build
         env:
           CI: true
+          # Must be HTTPS when frontend is on CloudFront (mixed content). Set repo variable REACT_APP_API_BASE_URL to e.g. https://dxxx.cloudfront.net/api/v1 after proxying /api to EC2.
           REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL || 'http://52.23.185.218:3000/api/v1' }}
 
       - name: Configure AWS credentials
