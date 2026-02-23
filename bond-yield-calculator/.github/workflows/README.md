@@ -4,6 +4,25 @@ This folder contains GitHub Actions workflows for deploying the Bond Yield Calcu
 
 ---
 
+## Where to see Actions run
+
+GitHub only runs workflows that live in the **repository root** `.github/workflows/` directory. For this repo the root is the parent of `bond-yield-calculator`, so the workflows that actually run are at **repo root** `.github/workflows/` (e.g. `genesis-assignment/.github/workflows/`), not inside `bond-yield-calculator/`.
+
+**To see when an action is triggered:**
+
+1. Open your repo on **GitHub**.
+2. Click the **Actions** tab (top bar, next to Pull requests).
+3. You’ll see:
+   - **All workflows** – list of workflow runs (triggered by push or manual run).
+   - **Deploy Frontend (S3 + CloudFront)** / **Deploy Backend (EC2)** – click a workflow name to see its runs.
+4. Click a **run** to see the job and step logs.
+
+**To trigger a run manually:** Actions → choose the workflow → **Run workflow** → pick the branch (e.g. `development`) → **Run workflow**.
+
+If nothing appears under Actions, the workflow files are likely not in the repo root `.github/workflows/` (see above).
+
+---
+
 ## How deployment is structured
 
 ```
@@ -15,8 +34,8 @@ This folder contains GitHub Actions workflows for deploying the Bond Yield Calcu
 
 | Workflow | Trigger | Target | What gets deployed |
 |----------|---------|--------|--------------------|
-| **deploy-frontend.yml** | Push to `main` or `development` when `frontend/**` changes, or manual run | S3 + CloudFront | Static build from `frontend/build/` |
-| **deploy-backend.yml** | Push to `main` or `development` when `backend/**` changes, or manual run | EC2 | Compiled app in `backend/dist/` + `package.json` / `package-lock.json` |
+| **deploy-frontend.yml** | Push to `main` or `development` when `bond-yield-calculator/frontend/**` changes, or manual run | S3 + CloudFront | Static build from `bond-yield-calculator/frontend/build/` |
+| **deploy-backend.yml** | Push to `main` or `development` when `bond-yield-calculator/backend/**` changes, or manual run | EC2 | Compiled app in `bond-yield-calculator/backend/dist/` + package files |
 
 Deployments are **separate**: changing only frontend runs only the frontend workflow; changing only backend runs only the backend workflow.
 
