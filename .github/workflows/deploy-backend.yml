@@ -47,15 +47,14 @@ jobs:
 
       - name: Prepare remote app directory
         run: |
-          APP_DIR="${{ vars.EC2_APP_DIR }}"
-          if [ -z "$APP_DIR" ]; then echo "::error::EC2_APP_DIR variable must be set to the full path on EC2 (e.g. /home/ubuntu/app)"; exit 1; fi
+          APP_DIR="${{ vars.EC2_APP_DIR || '/home/ubuntu/app' }}"
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new \
             ${{ secrets.EC2_USER || vars.EC2_USER }}@${{ secrets.EC2_HOST || vars.EC2_HOST }} \
             "mkdir -p $APP_DIR"
 
       - name: Copy artifacts to EC2
         run: |
-          APP_DIR="${{ vars.EC2_APP_DIR }}"
+          APP_DIR="${{ vars.EC2_APP_DIR || '/home/ubuntu/app' }}"
           scp -i ~/.ssh/deploy_key -o StrictHostKeyChecking=accept-new -r \
             bond-yield-calculator/backend/dist \
             bond-yield-calculator/backend/package.json \
@@ -64,6 +63,7 @@ jobs:
 
       - name: Install production deps and restart on EC2
         run: |
+          APP_DIR="${{ vars.EC2_APP_DIR || '/home/ubuntu/app' }}"
           ssh -i ~/.ssh/deploy_key \
             ${{ secrets.EC2_USER || vars.EC2_USER }}@${{ secrets.EC2_HOST || vars.EC2_HOST }} \
-            "cd ${{ vars.EC2_APP_DIR }} && npm ci --omit=dev && (pm2 restart bond-api || (pm2 delete bond-api 2>/dev/null; pm2 start dist/main.js --name bond-api) || node dist/main.js &)"
+            "cd $APP_DIR && npm ci --omit=dev && (pm2 restart bond-api || (pm2 delete bond-api 2>/dev/null; pm2 start dist/main.js --name bond-api) || node dist/main.js &)"

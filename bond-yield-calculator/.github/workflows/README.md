@@ -77,9 +77,9 @@ Configure these in the repo: **Settings → Secrets and variables → Actions**.
 | **EC2_SSH_PRIVATE_KEY** | Secret | Yes | Full contents of the SSH private key (e.g. `~/.ssh/id_rsa`) used to connect to EC2. |
 | **EC2_USER** | Secret or Variable | Yes | SSH user on the instance (e.g. `ubuntu`, `ec2-user`). |
 | **EC2_HOST** | Secret or Variable | Yes | EC2 hostname or IP (e.g. `ec2-xx-xx-xx-xx.compute.amazonaws.com`). |
-| **EC2_APP_DIR** | Variable | **Yes** | **Full path** on EC2 for the app (e.g. `/home/ubuntu/app` or `/home/ec2-user/app`). Do not use `~/app` — the workflow needs an absolute path. |
+| **EC2_APP_DIR** | Variable | No | Full path on EC2 for the app. Defaults to `/home/ubuntu/app`. Set to e.g. `/home/ec2-user/app` if your SSH user is not `ubuntu`. |
 
-**Where to add:** All can be **Secrets** (recommended for user/host) or **Variables**; **EC2_APP_DIR** must be a **Variable** and must be the full path so SCP and SSH work correctly.
+**Where to add:** All can be **Secrets** (recommended for user/host) or **Variables**. If you don’t set **EC2_APP_DIR**, the workflow uses `/home/ubuntu/app` (correct when **EC2_USER** is `ubuntu`).
 
 ---
 
