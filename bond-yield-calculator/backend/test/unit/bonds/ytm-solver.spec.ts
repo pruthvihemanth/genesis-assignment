@@ -1,5 +1,5 @@
-import { YtmSolver } from './ytm-solver';
-import { Bond } from '../domain/bond.entity';
+import { YtmSolver } from '../../../src/bonds/ytm-solver';
+import { Bond } from '../../../src/domain/bond.entity';
 
 describe('YtmSolver', () => {
   let solver: YtmSolver;

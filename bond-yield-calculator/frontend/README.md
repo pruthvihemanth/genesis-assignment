@@ -35,7 +35,7 @@ src/
 
 - **No business logic in UI:** All bond math lives in the backend. The frontend only sends bond parameters and displays API responses.
 - **Single source of state:** `App` holds `result`, `lastInput`, `loading`, `error`. Form submit calls `calculateBond()`; on success we store result and lastInput so the chart can call `getPriceYieldCurve()` with the same parameters.
-- **Typed API layer:** `api/client.ts` uses shared types from `types/bond.ts`; base URL from `REACT_APP_API_BASE_URL` (default `http://localhost:3000/api/v1`).
+- **Typed API layer:** `api/apiClient.ts` uses shared types from `types/bond.ts`; base URL from `REACT_APP_API_BASE_URL` (default `http://localhost:3000/api/v1`).
 - **Accessibility & UX:** Labels, error messages, loading states, disabled submit while loading, responsive layout. Chart tooltips and legend; premium/discount/par reflected in chart marker color.
 
 ## Scripts

@@ -1,5 +1,5 @@
-import { BondCalculator } from './bond-calculator';
-import { Bond } from '../domain/bond.entity';
+import { BondCalculator } from '../../../src/bonds/bond-calculator';
+import { Bond } from '../../../src/domain/bond.entity';
 
 describe('BondCalculator', () => {
   describe('currentYield', () => {

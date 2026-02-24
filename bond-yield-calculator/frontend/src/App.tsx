@@ -4,7 +4,7 @@ import { BondResults } from './components/BondResults';
 import { PriceYieldChart } from './components/PriceYieldChart';
 import { CashFlowTable } from './components/CashFlowTable';
 import { Spinner } from './components/Spinner';
-import { calculateBond } from './api/client';
+import { calculateBond } from './api/apiClient';
 import type { BondFormInput, BondCalculationResult } from './types/bond';
 
 function App(): React.ReactElement {

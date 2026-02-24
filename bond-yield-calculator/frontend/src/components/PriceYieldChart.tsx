@@ -11,7 +11,7 @@ import {
   ReferenceLine,
   ReferenceDot,
 } from 'recharts';
-import { getPriceYieldCurve } from '../api/client';
+import { getPriceYieldCurve } from '../api/apiClient';
 import { formatCurrency, formatPercent } from '../utils/format';
 import type { BondFormInput, PremiumOrDiscount } from '../types/bond';
 

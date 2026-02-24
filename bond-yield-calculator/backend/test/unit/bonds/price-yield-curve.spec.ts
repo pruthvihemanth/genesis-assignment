@@ -1,7 +1,7 @@
-import { BondsService } from './bonds.service';
-import { CashFlowGenerator } from './cash-flow-generator';
-import { YtmSolver } from './ytm-solver';
-import { CalculateBondDto, CouponFrequencyDto } from '../dto/calculate-bond.dto';
+import { BondsService } from '../../../src/bonds/bonds.service';
+import { CashFlowGenerator } from '../../../src/bonds/cash-flow-generator';
+import { YtmSolver } from '../../../src/bonds/ytm-solver';
+import { CalculateBondDto, CouponFrequencyDto } from '../../../src/dto/calculate-bond.dto';
 
 describe('Price–yield curve', () => {
   let bondsService: BondsService;

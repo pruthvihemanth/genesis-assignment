@@ -24,9 +24,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --config=jest.config.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -49,5 +49,13 @@
   },
   "overrides": {
     "yaml": "^2.4.2"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/test/unit/**/*.test.tsx",
+      "<rootDir>/test/unit/**/*.test.ts",
+      "<rootDir>/test/unit/**/*.spec.tsx",
+      "<rootDir>/test/unit/**/*.spec.ts"
+    ]
   }
 }

@@ -1,7 +1,7 @@
-import { Bond } from '../domain/bond.entity';
-import { YtmSolver } from './ytm-solver';
-import { BondCalculator } from './bond-calculator';
-import { CashFlowGenerator } from './cash-flow-generator';
+import { Bond } from '../../../src/domain/bond.entity';
+import { YtmSolver } from '../../../src/bonds/ytm-solver';
+import { BondCalculator } from '../../../src/bonds/bond-calculator';
+import { CashFlowGenerator } from '../../../src/bonds/cash-flow-generator';
 
 describe('Zero coupon bond', () => {
   const faceValue = 1000;
